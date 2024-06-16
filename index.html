@@ -3,20 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
-    <title>IBGE Notícias</title>
+    <link rel="stylesheet" href="styles.css">
+    <title>Portal de Notícias do IBGE</title>
 </head>
 <body>
 <header>
     <div class="center-column gap-25 margin-t-10">
-        <h1 class="texto-branco">Portal de Notícias do IBGE</h1>
+        <h1 class="texto-branco">
+            Portal de Notícias do IBGE
+        </h1>
         <div class="flex center-column-row">
             <form class="relative" onsubmit="search(event)">
-                <input type="text" id="search-noticia" placeholder="Buscar notícia por termo">
+                <input type="text" id="search-noticia" placeholder="Buscar notícias...">
                 <button type="submit" id="button-search-noticia">🔍</button>
             </form>
             <div id="svg-filtro" class="center-all">
-                <svg width="20" height="20" fill="#f0f0f0" viewBox="0 0 80 90" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                        width="20"
+                        height="20"
+                        fill="#f0f0f0"
+                        viewBox="0 0 80 90"
+                        focusable="false"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
                     <path d="m 0,0 30,45 0,30 10,15 0,-45 30,-45 Z"></path>
                 </svg>
                 <div id="circulo-filtro" class="flex center-all"></div>
@@ -31,7 +40,7 @@
 </main>
 
 <footer class="center-all texto-branco">
-    <span>&copy 2024 Prova de Programação Web</span>
+    <p>&copy;2024  Prova segundo Bimestre - Programação Web</p>
 </footer>
 
 <dialog id="dialog-filtro">
@@ -67,6 +76,6 @@
         <button type="submit" class="texto-branco" id="botao-filtro">Aplicar</button>
     </form>
 </dialog>
-<script src="index.js"></script>
 </body>
+<script src="script.js"></script>
 </html>

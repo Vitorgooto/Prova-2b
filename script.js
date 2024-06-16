@@ -1,31 +1,30 @@
-// index.js
-
-const search_input = document.getElementById("search-noticia");
-const total_filtro = document.getElementById("circulo-filtro");
-const filtro_tipo = document.getElementById("filtro-tipo");
-const filtro_quantidade = document.getElementById("filtro-quantidade");
-const filtro_de = document.getElementById("filtro-de");
-const filtro_ate = document.getElementById("filtro-ate");
+const search_input = document.getElementById("search-noticia")
+const total_filtro = document.getElementById("circulo-filtro")
+const filtro_tipo = document.getElementById("filtro-tipo")
+const filtro_quantidade = document.getElementById("filtro-quantidade")
+const filtro_de = document.getElementById("filtro-de")
+const filtro_ate = document.getElementById("filtro-ate")
 
 const filtro = document.getElementById("svg-filtro");
 const dialog_filtro = document.getElementById("dialog-filtro");
 const close_dialog = document.getElementById("close-dialog");
-
-const ul_noticia = document.getElementById("conteudo-principal");
 const paginacao = document.getElementById("paginacao");
 
-filtro.addEventListener('click', () => {
+filtro.addEventListener('click', () =>{
     dialog_filtro.showModal();
 });
 
-close_dialog.addEventListener('click', () => {
+close_dialog.addEventListener('click', () =>{
     dialog_filtro.close();
 });
 
+const ul_noticia = document.getElementById("conteudo-principal");
+
+
 trazerInformacoesFiltradas();
 
-function trazerInformacoesFiltradas() {
-    setFiltros();
+function trazerInformacoesFiltradas(){
+    setFiltros()
     getQuantidadeFiltros();
     getNoticias().then((noticias) => {
         while (ul_noticia.lastChild) {
@@ -41,11 +40,13 @@ async function getNoticias() {
     return await dados.json();
 }
 
-function createCardsWithNoticias(noticias) {
+function createCardsWithNoticias(noticias){
     noticias.items.forEach(n => adicionarFilho(ul_noticia, createCard(n)));
 }
 
-function setFiltros() {
+
+// FUNCÇÂO FILTRO
+function setFiltros(){
     const url = new URL(window.location);
     search_input.value = url.searchParams.get('busca') ?? '';
     filtro_tipo.value = url.searchParams.get('tipo') ?? '';
@@ -53,47 +54,52 @@ function setFiltros() {
     filtro_de.value = url.searchParams.get('de') ?? '';
     filtro_ate.value = url.searchParams.get('ate') ?? '';
     url.searchParams.set('qtd', filtro_quantidade.value);
-    url.searchParams.set('page', url.searchParams.get('page') ?? '1');
+    url.searchParams.set('page', url.searchParams.get('page') ?? '1' );
     window.history.pushState({}, '', url);
 }
 
-function search(event) {
+function search(event){
     event.preventDefault();
     const url = new URL(window.location);
     url.searchParams.set('busca', search_input.value);
-    if (search_input.value === '') {
+    if(search_input.value === ''){
         url.searchParams.delete('busca');
     }
-    url.searchParams.set('page', '1');
+    url.searchParams.set('page', '1' );
     window.history.pushState({}, '', url);
     trazerInformacoesFiltradas();
 }
 
-function aplicarFiltro(event) {
+function aplicarFiltro(event){
     event.preventDefault();
     const url = new URL(window.location);
     url.searchParams.set('qtd', filtro_quantidade.value);
-    filtro_tipo.value ? url.searchParams.set('tipo', filtro_tipo.value) : url.searchParams.delete('tipo');
-    filtro_de.value ? url.searchParams.set('de', filtro_de.value) : url.searchParams.delete('de');
-    filtro_ate.value ? url.searchParams.set('ate', filtro_ate.value) : url.searchParams.delete('ate');
+    filtro_tipo.value ? url.searchParams.set('tipo', filtro_tipo.value) :
+        url.searchParams.delete('tipo');
+    filtro_de.value ? url.searchParams.set('de', filtro_de.value) :
+        url.searchParams.delete('de');
+    filtro_ate.value ? url.searchParams.set('ate', filtro_ate.value) :
+        url.searchParams.delete('ate');
     dialog_filtro.close();
-    url.searchParams.set('page', '1');
+    url.searchParams.set('page', '1' );
     window.history.pushState({}, '', url);
     trazerInformacoesFiltradas();
 }
 
-function getQuantidadeFiltros() {
+function getQuantidadeFiltros(){
     const params = new URL(window.location).searchParams;
     let totalFiltros = 0;
     params.forEach((value, key) => {
-        if (key !== 'page' && key !== 'busca') {
+        if(key !== 'page' && key !== 'busca'){
             totalFiltros++;
         }
     });
     total_filtro.innerText = totalFiltros;
 }
 
-function createCard(noticia) {
+
+//card
+function createCard(noticia){
     const li = criarElementoHTML('li');
     const img = criarElementoHTML('img');
     const divTexto = criarElementoHTML('div');
@@ -139,22 +145,23 @@ function createCard(noticia) {
     return li;
 }
 
-function getImagem(imagem) {
-    return 'https://agenciadenoticias.ibge.gov.br/' + JSON.parse(!!imagem ? imagem : '{"image":{"image_intro": ""}}').image_intro;
+function getImagem(imagem){
+    return 'https://agenciadenoticias.ibge.gov.br/'
+        + JSON.parse(!!imagem ? imagem : '{"image":{"image_intro": ""}}').image_intro;
 }
 
-function getEditorias(editorias) {
+function getEditorias(editorias){
     return '#' + editorias.replace(';', ' #');
 }
 
-function getPublicado(dateString) {
+function getPublicado(dateString){
     const date = getFormatDate(dateString);
     const dateHoje = new Date();
-    const diferencaDatasEmDia = Math.round((dateHoje - date) / 24 / 60 / 60 / 1000);
-    if (diferencaDatasEmDia === 0) {
+    diferencaDatasEmDia = Math.round((dateHoje - date) / 24 / 60 / 60 / 1000);
+    if(diferencaDatasEmDia === 0){
         return 'Publicado hoje';
     }
-    if (diferencaDatasEmDia === 1) {
+    if(diferencaDatasEmDia === 1){
         return 'Publicado ontem';
     }
     return `Publicado há ${diferencaDatasEmDia} dias`;
@@ -170,40 +177,44 @@ function getFormatDate(dateString) {
     return new Date(`${year}-${month}-${day}T${dateStringArray[1]}Z`);
 }
 
-function criarElementoHTML(element) {
+function criarElementoHTML(element){
     return document.createElement(element);
 }
 
-function adicionarClasses(element, classes) {
+function adicionarClasses(element, classes){
     classes.forEach(c => {
         element.classList.add(c);
-    });
+    })
 }
 
-function adicionarFilho(pai, filho) {
+function adicionarFilho(pai, filho){
     pai.appendChild(filho);
 }
 
-function criarPaginas(totalPage, paginaAtual) {
+
+
+
+// pagnias de noticias
+function criarPaginas(totalPage, paginaAtual){
     let paginas = '';
     let i = 1;
-    if (paginaAtual >= 7 && totalPage > 10) {
-        i = paginaAtual - 5;
+    if(paginaAtual >= 7 && totalPage > 10){
+        i = paginaAtual-5
     }
-    if (paginaAtual >= totalPage - 4 && totalPage > 10) {
-        i = totalPage - 9;
+    if(paginaAtual >= totalPage-4 && totalPage > 10){
+        i = totalPage-9;
     }
-    const fimPagina = i + 9;
-    while (i <= fimPagina && i !== totalPage + 1) {
+    const fimPagina = i + 9
+    while(i <= fimPagina && i !== totalPage+1){
         paginas += criarPagina(i);
         i++;
     }
     paginacao.innerHTML = paginas;
 }
 
-function criarPagina(index) {
+function criarPagina(index){
     const url = new URL(window.location);
-    const isAtiva = url.searchParams.get('page') === index.toString();
+    const isAtiva = url.searchParams.get('page') === index.toString()
     return `
         <li>
             <button 
@@ -211,12 +222,12 @@ function criarPagina(index) {
                 type="button" 
                 onclick="changePage(this)">${index}</button>
         </li>
-    `;
+    `
 }
 
-function changePage(element) {
+function changePage(element){
     const url = new URL(window.location);
     url.searchParams.set('page', element.textContent);
     window.history.pushState({}, '', url);
-    trazerInformacoesFiltradas();
+    trazerInformacoesFiltradas()
 }
