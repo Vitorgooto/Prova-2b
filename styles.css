@@ -22,7 +22,9 @@ main{
 footer{
     background-color: #4682b4;
 }
-
+ul {
+    list-style: none;
+}
 li{
     list-style: none;
 }
@@ -249,10 +251,10 @@ li{
     color: #f0f0f0;
 }
 
-@media only screen and (max-width: 768px) {
-    #dialog-filtro{
-        height: 450px;
+@media only screen and (max-width: 760px) {
+    #dialog-filtro {
         width: 80vw;
+        height: 450px;
     }
 
     #dialog-filtro form {
@@ -260,16 +262,27 @@ li{
         flex-direction: column;
     }
 
-    #texto-listagem{
-        padding: 10px 0px;
-    }
-
-    .card-noticia{
+    .card-noticia {
         display: flex;
         flex-direction: column;
     }
 
-    .imagem-noticia{
+    .imagem-noticia {
         width: 100%;
+    }
+}
+
+@media only screen and (min-width: 761px) {
+    #dialog-filtro {
+        width: 50vw;
+        height: 250px;
+    }
+
+    #dialog-filtro form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: center;
+        padding: 0 40px;
+        gap: 20px;
     }
 }

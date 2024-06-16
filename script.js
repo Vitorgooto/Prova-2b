@@ -8,6 +8,7 @@ const filtro_ate = document.getElementById("filtro-ate")
 const filtro = document.getElementById("svg-filtro");
 const dialog_filtro = document.getElementById("dialog-filtro");
 const close_dialog = document.getElementById("close-dialog");
+
 const paginacao = document.getElementById("paginacao");
 
 filtro.addEventListener('click', () =>{
@@ -19,7 +20,6 @@ close_dialog.addEventListener('click', () =>{
 });
 
 const ul_noticia = document.getElementById("conteudo-principal");
-
 
 trazerInformacoesFiltradas();
 
@@ -44,8 +44,6 @@ function createCardsWithNoticias(noticias){
     noticias.items.forEach(n => adicionarFilho(ul_noticia, createCard(n)));
 }
 
-
-// FUNCÇÂO FILTRO
 function setFiltros(){
     const url = new URL(window.location);
     search_input.value = url.searchParams.get('busca') ?? '';
@@ -97,8 +95,6 @@ function getQuantidadeFiltros(){
     total_filtro.innerText = totalFiltros;
 }
 
-
-//card
 function createCard(noticia){
     const li = criarElementoHTML('li');
     const img = criarElementoHTML('img');
@@ -155,7 +151,7 @@ function getEditorias(editorias){
 }
 
 function getPublicado(dateString){
-    const date = getFormatDate(dateString);
+    const date = new Date(dateString);
     const dateHoje = new Date();
     diferencaDatasEmDia = Math.round((dateHoje - date) / 24 / 60 / 60 / 1000);
     if(diferencaDatasEmDia === 0){
@@ -165,16 +161,6 @@ function getPublicado(dateString){
         return 'Publicado ontem';
     }
     return `Publicado há ${diferencaDatasEmDia} dias`;
-}
-
-function getFormatDate(dateString) {
-    const dateStringArray = dateString.split(' ');
-    const onlyDate = dateStringArray[0].split('/');
-    const day = onlyDate[0];
-    const month = onlyDate[1];
-    const year = onlyDate[2];
-
-    return new Date(`${year}-${month}-${day}T${dateStringArray[1]}Z`);
 }
 
 function criarElementoHTML(element){
@@ -191,10 +177,6 @@ function adicionarFilho(pai, filho){
     pai.appendChild(filho);
 }
 
-
-
-
-// pagnias de noticias
 function criarPaginas(totalPage, paginaAtual){
     let paginas = '';
     let i = 1;
